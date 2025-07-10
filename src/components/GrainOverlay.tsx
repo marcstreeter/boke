@@ -99,7 +99,7 @@ export function GrainOverlay({
       </svg>
 
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none fixed inset-0"
         style={{
           opacity,
           mixBlendMode: blendMode,
@@ -110,7 +110,7 @@ export function GrainOverlay({
 
       {/* Alternative CSS-only grain for better performance */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none fixed inset-0"
         style={{
           opacity: opacity * 0.5,
           mixBlendMode: blendMode,
