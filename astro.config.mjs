@@ -10,9 +10,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  experimental: {
-    viewTransitions: true,
-  },
   site: SITE_URL,
   integrations: [mdx(), sitemap(), react()],
   markdown: {
