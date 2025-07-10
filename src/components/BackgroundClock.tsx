@@ -910,7 +910,7 @@ export default function MeshArtBackground({
   }, [grain]);
 
   return (
-    <div className="fixed inset-0 -z-10 h-screen w-full overflow-hidden dark:bg-black">
+    <div className="fixed inset-0 -z-10 h-screen w-full max-w-screen overflow-hidden dark:bg-black">
       <Canvas
         style={{
           transition: `opacity ${isNavigating ? transitionDuration : 1000}ms ease-in-out`,

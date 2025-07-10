@@ -71,7 +71,7 @@ export function LastFM() {
       contentKey={(data?.name || "abc") + data?.artist + data?.imageUrl}
     >
       {data ? (
-        <div className="justify-left flex h-full w-screen max-w-lg min-w-full flex-row items-center overflow-visible">
+        <div className="justify-left flex h-full w-[95vw] max-w-lg min-w-full flex-row items-center overflow-visible">
           <div className="h-20 overflow-visible">
             {data.imageUrl ===
             "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png" ? (
