@@ -2,6 +2,7 @@
 import Ambilight from "../components/ambilight.astro";
 import BackgroundClock from "../components/BackgroundClock.tsx";
 import { GrainOverlay } from "../components/GrainOverlay";
+import { IconRow } from "../components/icon-row.tsx";
 import { LastFM } from "../components/lastfm.tsx";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
@@ -10,7 +11,7 @@ import Layout from "../layouts/Layout.astro";
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <Ambilight />
   <BackgroundClock client:load />
-  <main class="flex w-full flex-col items-start space-y-4">
+  <main class="mb-[20vh] flex w-full flex-col items-start space-y-4">
     <div class="space-y-2 text-start">
       <img
         src="/natb.jpg"
@@ -23,9 +24,9 @@ import Layout from "../layouts/Layout.astro";
           software. design. music. - nashville, tn.
         </p>
       </div>
+      <IconRow />
       <div>
-        i’m a full-stack developer currently focused on building reliable,
-        flexible media solutions that anyone can use.
+        i’m a full-stack developer, interested in the web and audiovisual media.
       </div>
       <div class="prose">
         most recently, i've been working at <a
@@ -37,7 +38,10 @@ import Layout from "../layouts/Layout.astro";
         the scenes.
       </div>
       <div>
-        i’m also the founder of <a
+        i am, along with <a
+          class="underline dark:border-sky-300 dark:text-sky-300"
+          href="https://mmatt.net">matt</a
+        > are founders of <a
           class="underline dark:border-sky-300 dark:text-sky-300"
           href="https://teal.fm">teal.fm</a
         >, which is a platform for tracking your own music, beautifully. i've
@@ -47,15 +51,18 @@ import Layout from "../layouts/Layout.astro";
         >, a local music streaming platform close to my heart.
       </div>
       <div>
-        i like to keep things practical and clear. i believe technology should
-        solve problems, not create more. this means focusing on tools and
-        platforms that empower people to do what they want. simply, reliably,
-        and quickly.
+        i like to keep things practical and clear. technology should solve
+        problems, not create more. i focus on tools that empower people simply,
+        reliably, and quickly. i care deeply about ownership. ownership of work,
+        of tools, and especially of data. you should be able to build and create
+        without trading away your rights or privacy. good systems let you keep
+        what’s yours, understand how it works, and walk away cleanly when you
+        want to.
       </div>
     </div>
-    <div class="h-20 w-min border-t border-neutral-500/50 pt-6">
+    <div class="h-26 max-w-full border-t border-neutral-500/50 pt-6">
       <LastFM client:load />
     </div>
+    <GrainOverlay />
   </main>
-  <GrainOverlay />
 </Layout>

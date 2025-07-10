@@ -18,7 +18,7 @@ export interface GrainOverlayProps {
 export function GrainOverlay({
   opacity = 0.3,
   blendMode = "overlay",
-  animate = true,
+  animate = false,
   grainSize = "coarse",
   color1,
   color2,
