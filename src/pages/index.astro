@@ -1,41 +1,61 @@
 ---
-import MeshArtBackgroundOptimized from "../components/BackgroundClockOptimized";
+import Ambilight from "../components/ambilight.astro";
+import BackgroundClock from "../components/BackgroundClock.tsx";
+import { GrainOverlay } from "../components/GrainOverlay";
+import { LastFM } from "../components/lastfm.tsx";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout
-  title={SITE_TITLE}
-  description={SITE_DESCRIPTION}
-  className="flex h-svh max-w-sm flex-col justify-center"
->
-  <MeshArtBackgroundOptimized client:load />
-  <main class="space-y-4">
-    <p>
-      Miniblog is an opinionated and extremely minimal blogging template built
-      with <a
-        href="https://astro.build/"
-        target="_blank"
-        class="text-blue-500 underline">Astro</a
-      > and <a
-        href="https://tailwindcss.com/"
-        target="_blank"
-        class="text-blue-500 underline">Tailwind</a
-      >.
-    </p>
-    <p>
-      Design heavily inspired by <a
-        href="https://jrmyphlmn.com/"
-        target="_blank"
-        class="text-blue-500 underline">jrmyphlmn.com</a
-      >.
-    </p>
-    <p>
-      To use this template, check out the <a
-        href="https://github.com/nicholasdly/miniblog?tab=readme-ov-file"
-        target="_blank"
-        class="text-blue-500 underline">GitHub repository</a
-      >.
-    </p>
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <Ambilight />
+  <BackgroundClock client:load />
+  <main class="flex w-full flex-col items-start space-y-4">
+    <div class="space-y-2 text-start">
+      <img
+        src="/natb.jpg"
+        alt="natalie's profile"
+        class="ambilight h-32 w-32 rounded-full border border-neutral-500/50"
+      />
+      <div>
+        <h2 class="text-3xl font-bold">natalie b.</h2>
+        <p class="text-xl text-gray-800 dark:text-gray-400">
+          software. design. music. - nashville, tn.
+        </p>
+      </div>
+      <div>
+        i’m a full-stack developer currently focused on building reliable,
+        flexible media solutions that anyone can use.
+      </div>
+      <div class="prose">
+        most recently, i've been working at <a
+          class="underline dark:border-sky-300 dark:text-sky-300"
+          href="https://stream.place/">streamplace</a
+        >, helping make live video easy and open for everyone, forever. before
+        that, i built an encoder pipeline and designed parts of a hobby OTT
+        streaming systems, so I have a solid understanding of the challenges
+        behind the scenes.
+      </div>
+      <div>
+        i’m also the founder of <a
+          class="underline dark:border-sky-300 dark:text-sky-300"
+          href="https://teal.fm">teal.fm</a
+        >, which is a platform for tracking your own music, beautifully. i've
+        also created created <a
+          href="https://github.com/espeon/muse"
+          class="underline dark:border-sky-300 dark:text-sky-300">muse</a
+        >, a local music streaming platform close to my heart.
+      </div>
+      <div>
+        i like to keep things practical and clear. i believe technology should
+        solve problems, not create more. this means focusing on tools and
+        platforms that empower people to do what they want. simply, reliably,
+        and quickly.
+      </div>
+    </div>
+    <div class="h-20 w-min border-t border-neutral-500/50 pt-6">
+      <LastFM client:load />
+    </div>
   </main>
+  <GrainOverlay />
 </Layout>

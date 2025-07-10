@@ -11,13 +11,17 @@ export interface GrainOverlayProps {
     | "hard-light";
   animate?: boolean;
   grainSize?: "fine" | "medium" | "coarse";
+  color1?: string; // First color for two-tone grain
+  color2?: string; // Second color for two-tone grain
 }
 
 export function GrainOverlay({
-  opacity = 0.08,
+  opacity = 0.3,
   blendMode = "overlay",
   animate = true,
-  grainSize = "medium",
+  grainSize = "coarse",
+  color1,
+  color2,
 }: GrainOverlayProps): React.JSX.Element {
   const grainSizeMap = {
     fine: 0.85,
@@ -27,9 +31,41 @@ export function GrainOverlay({
 
   const baseFrequency = grainSizeMap[grainSize];
 
+  // Default to black and white if not provided
+  const c1 = color1 || "#000033";
+  const c2 = color2 || "#eeeeff";
+
+  // Helper to convert hex color to normalized RGB
+  function hexToRgbNorm(hex: string) {
+    const h = hex.replace("#", "");
+    return [
+      parseInt(h.substring(0, 2), 16) / 255,
+      parseInt(h.substring(2, 4), 16) / 255,
+      parseInt(h.substring(4, 6), 16) / 255,
+    ];
+  }
+  const [r1, g1, b1] = hexToRgbNorm(c1);
+  const [r2, g2, b2] = hexToRgbNorm(c2);
+
+  // feComponentTransfer for two-tone mapping
+  const feTwoTone = (
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues={`${r1} ${r2}`} />
+      <feFuncG type="table" tableValues={`${g1} ${g2}`} />
+      <feFuncB type="table" tableValues={`${b1} ${b2}`} />
+      <feFuncA
+        type="discrete"
+        tableValues="0 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 1"
+      />
+    </feComponentTransfer>
+  );
+
   return (
     <>
-      <svg className="pointer-events-none absolute h-0 w-0" aria-hidden="true">
+      <svg
+        className="pointer-events-none absolute h-24 w-24"
+        aria-hidden="true"
+      >
         <defs>
           <filter id="grain-static">
             <feTurbulence
@@ -38,13 +74,7 @@ export function GrainOverlay({
               numOctaves="4"
               seed="5"
             />
-            <feColorMatrix type="saturate" values="0" />
-            <feComponentTransfer>
-              <feFuncA
-                type="discrete"
-                tableValues="0 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 1"
-              />
-            </feComponentTransfer>
+            {feTwoTone}
           </filter>
 
           {animate && (
@@ -62,13 +92,7 @@ export function GrainOverlay({
                   repeatCount="indefinite"
                 />
               </feTurbulence>
-              <feColorMatrix type="saturate" values="0" />
-              <feComponentTransfer>
-                <feFuncA
-                  type="discrete"
-                  tableValues="0 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 .5 1"
-                />
-              </feComponentTransfer>
+              {feTwoTone}
             </filter>
           )}
         </defs>
@@ -134,55 +158,6 @@ export function CSSGrainOverlay({
         `,
       }}
     />
-  );
-}
-
-// High-quality film grain effect
-export function FilmGrainOverlay({
-  opacity = 0.1,
-  blendMode = "overlay",
-  speed = "normal",
-}: GrainOverlayProps & {
-  speed?: "slow" | "normal" | "fast";
-}): React.JSX.Element {
-  const animationDuration = {
-    slow: "3s",
-    normal: "1.5s",
-    fast: "0.5s",
-  }[speed];
-
-  return (
-    <>
-      <style>{`
-        @keyframes grain {
-          0%, 100% { transform: translate(0, 0); }
-          10% { transform: translate(-5%, -10%); }
-          20% { transform: translate(-15%, 5%); }
-          30% { transform: translate(7%, -25%); }
-          40% { transform: translate(-5%, 25%); }
-          50% { transform: translate(-15%, 10%); }
-          60% { transform: translate(15%, 0%); }
-          70% { transform: translate(0%, 15%); }
-          80% { transform: translate(3%, 25%); }
-          90% { transform: translate(-10%, 10%); }
-        }
-
-        .film-grain {
-          animation: grain ${animationDuration} steps(10) infinite;
-          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRoge2ZsQ3DMAxEn4W5T1bJBp4hW3gEjdIJMoJH8AgeIRt4hEzgDbJJdlAKpbCgH0WmJYJf4CDwfPI/UZSKMcYYY4wxf4/HYrEI8G2M+fZ9P3Ech1EURUmSJGldr9fXOI6vAL68s9vtPkKI0FpbAahaaw0hhJAkSVLe7/cf7/Ner58HnHNO13Wd1lpfAVz6vr9prTVjjDnOuVPnue/ekiSJ67qu67rutm3b9Xa7bQoh2q7rbvP5/K7I5XJ5b9t2XRSlMAyD8/n8R5H1ev1pjAlUVZVSylJK6TjnzjnnrJSyBBCEYdjG2E/TNKmUspRSSimllFIqVQZwmUwmZ6+kvu83SZLE1lp0XddZa83/QyOEuBVCfBljjDHGmP/IH5YAXmWEj5tPAAAAAElFTkSuQmCC");
-          width: 200%;
-          height: 200%;
-        }
-      `}</style>
-
-      <div
-        className="film-grain pointer-events-none absolute -inset-1/2"
-        style={{
-          opacity,
-          mixBlendMode: blendMode,
-        }}
-      />
-    </>
   );
 }
 

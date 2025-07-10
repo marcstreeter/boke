@@ -564,7 +564,13 @@ interface PostProcessingProps {
 function PostProcessing({ blurRadius, samples }: PostProcessingProps): null {
   const { gl, size, scene, camera } = useThree();
 
-  // Create render targets
+  // Downsampled render targets (1/4 resolution)
+  const downsampleWidth = Math.max(1, Math.floor(size.width / 8));
+  const downsampleHeight = Math.max(1, Math.floor(size.height / 8));
+  const downsampleTarget = useFBO(downsampleWidth, downsampleHeight);
+  const downsampleBlurTarget = useFBO(downsampleWidth, downsampleHeight);
+
+  // Full-res targets
   const sceneTarget = useFBO(size.width, size.height);
   const gaussianBlurTarget = useFBO(size.width, size.height);
   const finalBokehTarget = useFBO(size.width, size.height);
@@ -626,8 +632,8 @@ function PostProcessing({ blurRadius, samples }: PostProcessingProps): null {
     // Update uniforms
     gaussianBlurMaterial.uniforms.uBlurRadius.value = blurRadius;
     gaussianBlurMaterial.uniforms.uResolution.value.set(
-      size.width,
-      size.height,
+      downsampleWidth,
+      downsampleHeight,
     );
     bokehBlurMaterial.uniforms.uBlurRadius.value = blurRadius;
     bokehBlurMaterial.uniforms.uSamples.value = samples;
@@ -637,23 +643,35 @@ function PostProcessing({ blurRadius, samples }: PostProcessingProps): null {
     pureBokehMaterial.uniforms.uResolution.value.set(size.width, size.height);
 
     if (blurRadius > 0) {
-      // Step 1: Render scene to texture
-      gl.setRenderTarget(sceneTarget);
+      // Step 1: Render scene to downsampled texture
+      gl.setRenderTarget(downsampleTarget);
+      gl.clear();
       gl.render(scene, camera);
 
-      // Step 2: Apply gaussian blur
+      // Step 2: Apply gaussian blur at low-res
       postScene.clear();
-      gaussianBlurMaterial.uniforms.tDiffuse.value = sceneTarget.texture;
+      gaussianBlurMaterial.uniforms.tDiffuse.value = downsampleTarget.texture;
       const gaussianBlurMesh = new THREE.Mesh(
         postGeometry,
         gaussianBlurMaterial,
       );
       postScene.add(gaussianBlurMesh);
 
+      gl.setRenderTarget(downsampleBlurTarget);
+      gl.render(postScene, postCamera);
+
+      // Step 3: Upsample blurred result to full-res
+      postScene.clear();
+      const upsampleMesh = new THREE.Mesh(
+        postGeometry,
+        new THREE.MeshBasicMaterial({ map: downsampleBlurTarget.texture }),
+      );
+      postScene.add(upsampleMesh);
+
       gl.setRenderTarget(gaussianBlurTarget);
       gl.render(postScene, postCamera);
 
-      // Step 3: Apply bokeh blur
+      // Step 4: Apply bokeh blur
       postScene.clear();
       bokehBlurMaterial.uniforms.tDiffuse.value = gaussianBlurTarget.texture;
       const bokehBlurMesh = new THREE.Mesh(postGeometry, bokehBlurMaterial);
@@ -662,7 +680,7 @@ function PostProcessing({ blurRadius, samples }: PostProcessingProps): null {
       gl.setRenderTarget(finalBokehTarget);
       gl.render(postScene, postCamera);
 
-      // Step 4: Apply final pure bokeh and render to screen
+      // Step 5: Apply final pure bokeh and render to screen
       postScene.clear();
       pureBokehMaterial.uniforms.tDiffuse.value = finalBokehTarget.texture;
       const pureBokehMesh = new THREE.Mesh(postGeometry, pureBokehMaterial);
@@ -742,8 +760,8 @@ interface MeshArtBackgroundProps {
 
 export default function MeshArtBackground({
   imageUrl,
-  imageUrlLight = "/canv-light.png",
-  imageUrlDark = "/canv-dark.jpg",
+  imageUrlLight = "/gradient-light.png",
+  imageUrlDark = "/gradient-dark.png",
   blurRadius = 30, // Layer blur radius
   samples = 25, // Layer samples
   boxBlurRadius = 4, // Post-processing gaussian blur
@@ -886,7 +904,7 @@ export default function MeshArtBackground({
   const grainProps = useMemo(() => {
     if (!grain) return null;
     if (grain === true) {
-      return { opacity: 0.08, blendMode: "overlay" as const };
+      return { opacity: 0.25, blendMode: "overlay" as const };
     }
     return grain;
   }, [grain]);
@@ -896,7 +914,8 @@ export default function MeshArtBackground({
       <Canvas
         style={{
           transition: `opacity ${isNavigating ? transitionDuration : 1000}ms ease-in-out`,
-          opacity: isTextureLoaded && !isNavigating ? 1 : 0,
+          opacity:
+            isTextureLoaded && !isNavigating ? (isDarkMode ? 0.25 : 0.25) : 0,
         }}
         key={imageUrl}
         camera={{ position: [0, 0, 4], fov: 75 }}
@@ -917,9 +936,6 @@ export default function MeshArtBackground({
           onTextureLoad={() => setIsTextureLoaded(true)}
         />
       </Canvas>
-
-      {/* Grain overlay */}
-      {grainProps && <GrainOverlay {...grainProps} />}
     </div>
   );
 }

@@ -1,17 +1,20 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 
 import sitemap from "@astrojs/sitemap";
 
-import tailwind from "@astrojs/tailwind";
 import { SITE_URL } from "./src/consts";
+
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+  experimental: {
+    viewTransitions: true,
+  },
   site: SITE_URL,
-  integrations: [mdx(), sitemap(), tailwind(), react()],
+  integrations: [mdx(), sitemap(), react()],
   markdown: {
     shikiConfig: {
       themes: {
@@ -19,5 +22,8 @@ export default defineConfig({
         dark: "catppuccin-mocha",
       },
     },
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
 });
