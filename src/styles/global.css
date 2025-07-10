@@ -129,7 +129,7 @@
 
 /* Layout states */
 .centered-layout {
-  @apply flex min-h-screen flex-col items-stretch justify-center md:pt-[17vh];
+  @apply flex min-h-screen flex-col items-stretch justify-center;
 }
 .default-layout {
   min-height: 100vh;
