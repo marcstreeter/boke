@@ -1,0 +1,29 @@
+---
+import { GrainOverlay } from "../components/GrainOverlay";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="mb-[20vh] flex w-full flex-col items-start space-y-4">
+    <p class="mb-4 text-3xl font-semibold">Experience</p>
+    <h2 class="mb-2 text-xl">Streamplace</h2>
+    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+      June 2025 - present
+    </p>
+    <div class="space-y-2 text-sm leading-relaxed">
+      <p>
+        Helping build live video for the AT Protocol — aiming to solve video,
+        once and for all, for everyone.
+      </p>
+      <p>
+        So far, I’ve rebuilt or reworked core surfaces like the homepage, the
+        primary video player, and the live chat experience. Played an integral
+        part in moving those to the open-source component library so others can
+        build on Streamplace as well.
+      </p>
+    </div>
+
+    <GrainOverlay />
+  </main>
+</Layout>
