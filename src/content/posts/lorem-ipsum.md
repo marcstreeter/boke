@@ -5,7 +5,7 @@ date: "Oct 26 2024"
 draft: true
 ---
 
-# **Chapter 1: The Submission**
+## **Chapter 1: The Submission**
 
 The fluorescent lights of the Shinjuku Summit Tower were a crime against nature. On the 27th floor, they hummed with a low, incessant buzz, casting a flat, sterile glare that was scientifically calibrated to mimic natural daylight. At 11:03 PM, this felt less like a feature and more like a cruel joke. It was a corporate attempt to cheat the sun, to wring just a few more hours of productivity out of the human machines that inhabited its cubicles. Below, beyond the vast, smear-free pane of glass that served as a wall, the real Tokyo sprawled out like a spilled galaxy of light, a living, breathing creature of mesmerizing energy. Kenna Tanaka, from her cubicle, felt entirely separate from it, an observer in a different biosphere. She was no longer a resident of the city; she was an off-world specimen in a brightly lit corporate terrarium.
 
@@ -93,7 +93,7 @@ Then, a brutal, world-ending collision.
 
 And the humming, buzzing, relentlessly demanding noise of Kenna Tanaka’s life—the deadlines, the bosses, the quiet desperation—was finally, blessedly, silenced.
 
-# **Chapter 2: The Princess**
+## **Chapter 2: The Princess**
 
 Silence.
 
@@ -223,7 +223,7 @@ She took a deep breath. Kenna Tanaka had died from letting other people dictate 
 
 With a flick of her thumbnail, she broke the seal.
 
-### **Chapter 3: The Invitation**
+## **Chapter 3: The Invitation**
 
 The heavy oak door of her brother’s study clicked softly shut behind her, the sound as final as a guillotine’s descent, sealing her transgression. Anya leaned back against the cool, unforgiving wood, her breath held tight in her chest, the stolen letter clutched in her hand like a hot coal. For a long, heart-stopping moment, the only sound in the corridor was the frantic, panicked drumming of her own heart against her ribs and the distant, mournful chime of the palace clock tower striking the third hour of the morning. She was a trespasser in the halls of power, a thief in her own home. The quiet, invisible princess had finally done something worthy of notice, and the thought was utterly terrifying.
 
@@ -337,7 +337,7 @@ Then she went to her windowsill, where a single sunset-colored lily—the first 
 
 Anya went over to her window and looked out, the warm locket clutched in her hand. She looked out over the sprawling, moonlit Royal Gardens toward the great oak tree at its heart, the tree they called the ‘King’s Heart,’ its ancient, gnarled branches a dark silhouette against the deepening twilight. Three nights to go. Her face, illuminated by the twin moons of Astria, was pale, but her violet eyes were filled with a quiet, nervous, and unshakeable resolve. Her retirement was over. Her true new life was about to begin.
 
-### **Chapter 4: The Heart**
+## **Chapter 4: The Heart**
 
 The morning after the vision, the world felt fundamentally different. Or rather, Anya felt different within it. The gilded cage of the palace, once a spacious sanctuary for her slow life, now seemed to have shrunk, its walls closing in with the suffocating pressure of a thousand unspoken threats. The light that streamed through the high arched windows of the breakfast hall no longer seemed warm and cheerful, but interrogative. The food, an exquisite selection of fresh fruits, warm pastries, and rich cream, tasted like ash in her mouth. She had crossed a line in her own mind, and this new awareness cast a stark, unforgiving light on everything she had once taken for granted.
 
