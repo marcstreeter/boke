@@ -1,6 +1,6 @@
 ---
 title: "The Celestial Academy"
-description: "A young girl's discovery of a hidden world of magic and her destiny to protect it. Silly approximation of YA Academy Fantasy."
+description: "A young girl's discovery of a hidden world of magic and her destiny to protect it. Silly approximation of awful slop prose YA Academy Fantasy."
 date: "Oct 26 2024"
 draft: true
 ---
