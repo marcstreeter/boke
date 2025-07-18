@@ -17,7 +17,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 let { title, description, date, image, className } = Astro.props;
 
 // https://ogimage-workers.kanbaru.workers.dev/?title=Godot%20and%20VSCode%3A%20How%20to%20integrate%20them%20together&liner=Supercharge%20your%20game%20dev%20workflow%20by%20using%20VSCode%20instead%20of%20Godot%27s%20text%20editor.&date=Mar.%2012,%202024
-if (!image && title && description && date) {
+if (!image && title) {
   // Default image if none is provided
   let params = {
     title: title || "Default Title",
@@ -35,9 +35,6 @@ if (!image && title && description && date) {
         }),
   };
   image = `https://ogimage-workers.kanbaru.workers.dev/?${new URLSearchParams(params)}`;
-} else if (!image) {
-  // Fallback image if no image is provided
-  image = "/default-og-image.png";
 }
 
 const isHome = Astro.url.pathname === "/";
@@ -79,14 +76,18 @@ const isHome = Astro.url.pathname === "/";
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    {
+      image && (
+        <meta property="twitter:image" content={new URL(image, Astro.url)} />
+      )
+    }
 
     <ClientRouter />
   </head>
