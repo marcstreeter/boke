@@ -1,6 +1,6 @@
 ---
 title: "The Celestial Academy"
-description: "A young girl's discovery of a hidden world of magic and her destiny to protect it."
+description: "A young girl's discovery of a hidden world of magic and her destiny to protect it. Silly approximation of YA Academy Fantasy."
 date: "Oct 26 2024"
 draft: true
 ---
@@ -516,8 +516,10 @@ The train finally began to decelerate, its silent glide slowing to a gentle drif
 
 The Starlight Express was pulling into a station that seemed to be carved into the side of one of the floating islands, connected to the main valley by an elegant, shimmering bridge of pure, white light. The journey was ending.
 
-Lina packed her notebook away, her face flushed with excitement. “This is it,” she breathed, looking more like an eager tourist than a new student. Ronan had recomposed himself, straightening his robes and reassuming his air of cool detachment, though he couldn't quite extinguish the residual spark of wonder in his eyes.
+Lina packed her notebook away, her face flushed with excitement. "This is it," she breathed, her voice a hushed whisper of pure anticipation. Beside her, Ronan had recomposed himself, straightening the immaculate lines of his black robes and reassuming his mask of cool detachment, though he couldn't quite extinguish the residual spark of wonder in his eyes. He now looked like someone determined to be unimpressed by a miracle.
 
-Anya simply watched, her heart a wild drum in her chest, as their new home grew larger and larger in the window. The train came to a final, perfect, silent stop. A soft chime echoed through the carriage, a sound like a single, clear bell note, and the pearlescent doors whispered open.
+Anya said nothing. Her own heart was a wild drum in her chest. She watched as their new home grew larger and larger in the vast crystal window, a place pulled from the pages of a forgotten myth. It was real. It was solid. It was waiting.
 
-The chapter ends on the three distinct faces of the new students as they stand to disembark—Lina’s alight with eager curiosity for the adventure ahead, Ronan’s with a grudging, reluctant fascination that he tries to hide, and Anya’s with a quiet, terrified, and wondrous awe as she beholds the impossible, solid reality of her future.
+The train came to a final, perfect, silent stop. A soft chime echoed through the carriage, a single, clear bell note that hung in the air like a held breath. The pearlescent doors whispered open, revealing the warm, fragrant air of the valley and the magnificent view of the glowing bridge.
+
+Lina was on her feet in an instant, her satchel slung over her shoulder, her entire being radiating an eagerness to rush forward into her new life. Ronan rose more slowly, with a practiced aristocratic grace, casting one last, critical glance around the carriage before turning toward the exit. Anya stood up last, her legs feeling unsteady. She took a deep breath, clutching the warm locket around her neck like a touchstone. Then, with Lina’s excited chatter ahead of her and Ronan's silent judgment behind, she walked toward the open door, toward the bridge of light, and toward the impossible, solid reality of her future.
