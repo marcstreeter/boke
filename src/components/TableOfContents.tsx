@@ -107,7 +107,7 @@ function TocThumb({
   return (
     <div
       ref={thumbRef}
-      className={`absolute -left-1 w-4 bg-blue-500 transition-all duration-200 dark:bg-blue-400 ${className}`}
+      className={`absolute -left-1 w-4 bg-blue-600 transition-all duration-200 dark:bg-blue-300 ${className}`}
       style={{
         top: "var(--fd-top, 0px)",
         height: "var(--fd-height, 0px)",
@@ -154,8 +154,8 @@ function TOCItem({
         }}
         className={`relative block py-1.5 text-sm transition-colors hover:text-zinc-900 dark:hover:text-zinc-100 ${
           isActive
-            ? "text-blue-600 dark:text-blue-400"
-            : "text-zinc-600 dark:text-zinc-400"
+            ? "text-blue-800 dark:text-blue-300"
+            : "text-neutral-600 dark:text-neutral-400"
         }`}
         style={{
           paddingLeft: `${getItemOffset(item.level)}px`,
@@ -500,7 +500,7 @@ export default function TableOfContents({
               )}")`,
             }}
           >
-            <div className="h-full bg-gray-500" />
+            <div className="h-full bg-gray-300 dark:bg-gray-600" />
 
             <TocThumb
               containerRef={containerRef}
