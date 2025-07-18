@@ -71,7 +71,7 @@ function TocThumb({
   activeItems,
   className = "",
 }: {
-  containerRef: React.RefObject<HTMLElement>;
+  containerRef: React.RefObject<HTMLElement | null>;
   activeItems: string[];
   className?: string;
 }) {
@@ -101,6 +101,8 @@ function TocThumb({
     const result = calc(containerRef.current, activeItems);
     update(thumbRef.current, result);
   }, [activeItems, containerRef]);
+
+  if (!containerRef.current) return null;
 
   return (
     <div
@@ -499,6 +501,7 @@ export default function TableOfContents({
             }}
           >
             <div className="h-full bg-gray-500" />
+
             <TocThumb
               containerRef={containerRef}
               activeItems={activeItems}
