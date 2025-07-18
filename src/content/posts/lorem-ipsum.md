@@ -5,7 +5,7 @@ date: "Oct 26 2024"
 draft: true
 ---
 
-## **Chapter 1: The Submission**
+## **Chapter 1: The End**
 
 The fluorescent lights of the Shinjuku Summit Tower were a crime against nature. On the 27th floor, they hummed with a low, incessant buzz, casting a flat, sterile glare that was scientifically calibrated to mimic natural daylight. At 11:03 PM, this felt less like a feature and more like a cruel joke. It was a corporate attempt to cheat the sun, to wring just a few more hours of productivity out of the human machines that inhabited its cubicles. Below, beyond the vast, smear-free pane of glass that served as a wall, the real Tokyo sprawled out like a spilled galaxy of light, a living, breathing creature of mesmerizing energy. Kenna Tanaka, from her cubicle, felt entirely separate from it, an observer in a different biosphere. She was no longer a resident of the city; she was an off-world specimen in a brightly lit corporate terrarium.
 
