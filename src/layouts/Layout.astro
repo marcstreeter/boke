@@ -96,8 +96,8 @@ const isHome = Astro.url.pathname === "/";
     <div
       id="page-container"
       class={cn(
-        "max-w-lg mx-auto p-4 layout-transition",
-        isHome ? "centered-layout" : "default-layout",
+        "mx-auto p-4 layout-transition",
+        isHome ? "centered-layout max-w-lg" : "default-layout max-w-prose",
         className,
       )}
       style="view-transition-name: page-container"

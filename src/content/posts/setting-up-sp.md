@@ -19,7 +19,7 @@ The moment of decision was when Eli mentioned his vision for Streamplace, which 
 What does one pack for a journey like this? Not much, at least physically. I had my laptop, an internet connection, and a credit card. But mentally, I needed patience, a willingness to learn, and documentation. Unfortunately, I didn't have much of the latter, so I decided to document my journey as I went along. I wanted to share my experience, the challenges I faced, and the solutions I found. I hoped that this would not only help me remember the process but also assist anyone else who might want to embark on a similar journey.
 
 So, what would one need for a setup like mine?
-- A server: I chose an Advin Servers](https://www.advinservers.com/) VPS with Rocky Linux 9.2. It was the most bang-for-your-buck option I could find, and I was excited to try out a new, secure, distro.
+- A server: I chose an [Advin Servers](https://www.advinservers.com/) VPS with Rocky Linux 9.2. It was the most bang-for-your-buck option I could find, and I was excited to try out a new, secure, distro.
 - Docker knowledge: I had some experience with Docker, but I wouldn't consider myself an expert. I knew enough to get by.
 - A domain name: I registered a domain name with [Spaceship](https://www.spaceship.com/) (Richard Kirkendall's new project). Usually I use Porkbun, but right now [i'm a Saving Guy](https://twiiit.com/jamescagewhite/status/1271243561799843842) and Spaceship had $0.99 .space domains.
 - A backup plan for if anything went wrong

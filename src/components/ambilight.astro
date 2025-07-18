@@ -19,12 +19,12 @@
       values="1 0 0 0 0
                    0 1 0 0 0
                    0 0 1 0 0
-                   33 33 33 101 -100"
+                   33 33 33 201 -100"
       result="bright-colors"></feColorMatrix>
     <feMorphology
       in="bright-colors"
       operator="dilate"
-      radius="1"
+      radius="10"
       result="spread"></feMorphology>
     <feGaussianBlur in="spread" stdDeviation="83" result="ambilight-light"
     ></feGaussianBlur>

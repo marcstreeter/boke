@@ -16,10 +16,10 @@ export interface GrainOverlayProps {
 }
 
 export function GrainOverlay({
-  opacity = 0.3,
+  opacity = 0.5,
   blendMode = "overlay",
   animate = false,
-  grainSize = "coarse",
+  grainSize = "medium",
   color1,
   color2,
 }: GrainOverlayProps): React.JSX.Element {
@@ -32,8 +32,8 @@ export function GrainOverlay({
   const baseFrequency = grainSizeMap[grainSize];
 
   // Default to black and white if not provided
-  const c1 = color1 || "#000033";
-  const c2 = color2 || "#eeeeff";
+  const c1 = color1 || "#000000";
+  const c2 = color2 || "#eeeeee";
 
   // Helper to convert hex color to normalized RGB
   function hexToRgbNorm(hex: string) {
@@ -185,18 +185,3 @@ export const grainPresets = {
     animate: true,
   },
 } as const;
-
-// Usage example component
-export function GrainExample() {
-  return (
-    <div className="relative h-screen w-full bg-linear-to-br from-purple-600 to-blue-600">
-      {/* Content */}
-      <div className="relative z-10 p-8">
-        <h1 className="text-4xl font-bold text-white">Your Content Here</h1>
-      </div>
-
-      {/* Apply grain overlay */}
-      <GrainOverlay {...grainPresets.medium} />
-    </div>
-  );
-}

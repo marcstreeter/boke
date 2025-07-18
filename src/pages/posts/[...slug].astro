@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../lib/utils";
+import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -13,28 +12,6 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
-const { Content } = await post.render();
 ---
 
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  image={post.data.image}
->
-  <main>
-    <h1 class="mb-1 text-3xl font-medium">
-      {post.data.title}
-    </h1>
-    {
-      post.data.description && (
-        <p class="mb-1 font-medium text-zinc-500">{post.data.description}</p>
-      )
-    }
-    <p class="mt-4 mb-1 font-medium text-zinc-500">
-      {formatDate(post.data.date)}
-    </p>
-    <article>
-      <Content />
-    </article>
-  </main>
-</Layout>
+<BlogPostLayout post={post} />

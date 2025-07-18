@@ -1,0 +1,161 @@
+---
+import { type CollectionEntry } from "astro:content";
+import TableOfContents from "../components/TableOfContents.tsx";
+import { formatDate } from "../lib/utils";
+import Layout from "./Layout.astro";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  date={post.data.date}
+  className="blog-post-layout"
+>
+  <div class="blog-post-container">
+    <!-- Main content area -->
+    <main>
+      <header class="blog-post-header">
+        <h1 class="mb-1 text-3xl font-medium">
+          {post.data.title}
+        </h1>
+        {
+          post.data.draft && (
+            <p class="mb-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Draft
+            </p>
+          )
+        }
+        {
+          post.data.description && (
+            <p class="mb-1 font-medium text-zinc-500">
+              {post.data.description}
+            </p>
+          )
+        }
+        <p class="mt-4 mb-8 font-medium text-zinc-500">
+          {formatDate(post.data.date)}
+        </p>
+      </header>
+
+      <article class="prose prose-zinc dark:prose-invert max-w-none">
+        <Content />
+      </article>
+    </main>
+
+    <!-- Table of Contents Sidebar -->
+    <TableOfContents client:load />
+  </div>
+</Layout>
+
+<style>
+  .blog-post-container {
+    position: relative;
+  }
+
+  /* TOC positioning */
+  :global(.table-of-contents) {
+    display: none;
+  }
+
+  /* Show TOC on larger screens - floating to the right */
+  @media (min-width: 1024px) {
+    :global(.table-of-contents) {
+      display: block;
+      position: fixed;
+      right: 50%;
+      left: auto;
+      top: 10%;
+      width: 250px;
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      z-index: 10;
+      opacity: 1;
+    }
+  }
+
+  /* Wider screens - move TOC further right */
+  @media (min-width: 1280px) {
+    :global(.table-of-contents) {
+      right: 3rem;
+      width: 280px;
+    }
+  }
+
+  /* Extra wide screens - even more space */
+  @media (min-width: 1536px) {
+    :global(.table-of-contents) {
+      right: 4rem;
+      width: 300px;
+    }
+  }
+
+  /* Style the prose content */
+  .prose {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    scroll-margin-top: 2rem;
+  }
+
+  .prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mobile TOC - show as collapsible at top */
+  @media (max-width: 1023px) {
+    :global(.table-of-contents) {
+      display: block;
+      position: static;
+      width: 100%;
+      max-height: 200px;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(228, 228, 231, 0.5);
+      border-radius: 0.5rem;
+      backdrop-filter: blur(10px);
+      transform: none;
+      box-shadow: none;
+    }
+
+    :global(.dark .table-of-contents) {
+      background: rgba(39, 39, 42, 0.8);
+      border-color: rgba(63, 63, 70, 0.5);
+    }
+  }
+
+  /* Fade-in animation for desktop TOC */
+  @keyframes fadeInTOC {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

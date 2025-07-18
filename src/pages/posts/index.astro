@@ -5,9 +5,9 @@ import Layout from "../../layouts/Layout.astro";
 import { formatDate } from "../../lib/utils";
 
 const collection = await getCollection("posts");
-const posts = collection.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const posts = collection
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .filter((post) => post.data.draft !== true);
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
@@ -18,9 +18,12 @@ const posts = collection.sort(
           <li>
             <a
               href={`/posts/${post.slug}`}
-              class="group flex justify-between gap-3"
+              class="group flex justify-between gap-3 pb-3"
             >
-              <span class="group-hover:underline">{post.data.title}</span>
+              <div>
+                <div class="group-hover:underline">{post.data.title}</div>
+                <div class="text-neutral-400">{post.data.description}</div>
+              </div>
               <span class="text-nowrap text-zinc-500">
                 {formatDate(post.data.date)}
               </span>
