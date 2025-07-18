@@ -13,7 +13,7 @@ export function IconRow() {
     { i: <FaBluesky />, url: "https://bsky.app/profile/natalie.sh" },
     { i: <IoLogoTwitch />, url: "https://twitch.tv/uxieq" },
     { i: <FaLastfm />, url: "https://last.fm/user/kanb" },
-    { i: <FaDiscord />, url: "https://nat.vg/discord" },
+    { i: <FaDiscord />, url: "https://discord.gg/pgGM9n8ppf" },
   ];
   return (
     <div className="flex py-2" style={{ fontSize: "1.75rem" }}>
