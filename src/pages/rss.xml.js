@@ -5,7 +5,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 export async function GET(context) {
   const posts = await getCollection("posts");
   // disclude posts that are not published
-  p = posts.filter((post) => post.data.published !== false);
+  const p = posts.filter((post) => post.data.published !== false);
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
