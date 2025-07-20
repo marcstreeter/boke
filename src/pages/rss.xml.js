@@ -3,14 +3,14 @@ import { getCollection } from "astro:content";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 export async function GET(context) {
-  const posts = await getCollection("posts")
-    // disclude posts that are not published
-    .filter((post) => post.data.published !== false);
+  const posts = await getCollection("posts");
+  // disclude posts that are not published
+  p = posts.filter((post) => post.data.published !== false);
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: context.site,
-    items: posts.map((post) => ({
+    items: p.map((post) => ({
       ...post.data,
       link: `/posts/${post.slug}/`,
     })),
