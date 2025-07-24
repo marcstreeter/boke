@@ -120,19 +120,24 @@ const fragmentShader = `
     // Apply the twist distortion to the UV coordinates
     vec2 twistedUv = twist(vUv, twistCenter, uTwistRadius, dynamicStrength);
 
-    // Apply stacked blur based on layer
+    // Early return optimization: skip blur entirely if no blur is needed
     vec3 blurredColor;
-
-    if (uLayerIndex >= 2.0) {
-      // Final layer: use bokeh blur
-      blurredColor = bokeh(uTexture, twistedUv, uBlurRadius, uSamples);
-    } else if (uLayerIndex >= 0.0) {
-      // First two layers: use fast box blur
-      float boxBlurRadius = uBlurRadius * (uLayerIndex + 1.0) * 0.3; // Progressive blur
-      blurredColor = boxBlur(uTexture, twistedUv, boxBlurRadius);
-    } else {
-      // No blur
+    if (uBlurRadius <= 0.0 || uSamples <= 0.0) {
+      // No blur needed - use direct texture lookup
       blurredColor = texture2D(uTexture, twistedUv).rgb;
+    } else {
+      // Apply stacked blur based on layer
+      if (uLayerIndex >= 2.0) {
+        // Final layer: use bokeh blur
+        blurredColor = bokeh(uTexture, twistedUv, uBlurRadius, uSamples);
+      } else if (uLayerIndex >= 0.0) {
+        // First two layers: use fast box blur
+        float boxBlurRadius = uBlurRadius * (uLayerIndex + 1.0) * 0.3; // Progressive blur
+        blurredColor = boxBlur(uTexture, twistedUv, boxBlurRadius);
+      } else {
+        // No blur
+        blurredColor = texture2D(uTexture, twistedUv).rgb;
+      }
     }
 
     vec3 finalColorRgb = blurredColor;
@@ -166,6 +171,7 @@ interface TwistedLayerProps {
   blurRadius: number;
   samples: number;
   numLayers: number;
+  opacity?: number;
 }
 
 function TwistedLayer({
@@ -176,6 +182,7 @@ function TwistedLayer({
   blurRadius,
   samples,
   numLayers,
+  opacity = 1.0,
 }: TwistedLayerProps): React.JSX.Element {
   const meshRef = useRef<Mesh>(null);
   const materialRef = useRef<ShaderMaterial>(null);
@@ -192,7 +199,7 @@ function TwistedLayer({
       uTwistStrength: { value: 2.5 },
       uLayerOffset: { value: layerIndex * Math.PI * 0.5 },
       uTint: { value: new THREE.Vector3(0.4, 0.4, 0.4) },
-      uOpacity: { value: 0.8 },
+      uOpacity: { value: opacity },
       uRotationSpeed: { value: (layerIndex + 1) * 0.05 }, // Much slower, subtle rotation
       // Blur uniforms - stacked system
       uResolution: { value: resolution || new THREE.Vector2(1, 1) },
@@ -201,7 +208,7 @@ function TwistedLayer({
       uLayerIndex: { value: layerIndex },
     }),
     // Include all dependencies that affect initial uniform values
-    [layerIndex, texture, resolution, blurRadius, samples],
+    [layerIndex, texture, resolution, blurRadius, samples, opacity],
   );
 
   // Update uniforms when props change (especially texture, resolution, blurRadius, samples)
@@ -215,9 +222,10 @@ function TwistedLayer({
         layerIndex === 0 ? blurRadius || 0 : 0;
       materialRef.current.uniforms.uSamples.value =
         layerIndex === 0 ? samples || 0 : 0;
+      materialRef.current.uniforms.uOpacity.value = opacity;
       materialRef.current.needsUpdate = true; // Important to signal changes
     }
-  }, [texture, resolution, blurRadius, samples, layerIndex]);
+  }, [texture, resolution, blurRadius, samples, layerIndex, opacity]);
 
   // Different tint for each layer to create fluid color blending
   useEffect(() => {
@@ -314,6 +322,7 @@ interface AlbumArtVisualizerProps {
   blurRadius: number;
   samples: number;
   onTextureLoad?: () => void;
+  removeBlur?: boolean;
 }
 
 function AlbumArtVisualizer({
@@ -323,77 +332,123 @@ function AlbumArtVisualizer({
   blurRadius,
   samples,
   onTextureLoad,
+  removeBlur = false,
 }: AlbumArtVisualizerProps): React.JSX.Element {
   const [loadedTexture, setLoadedTexture] = useState<Texture>(fallbackTexture);
   const [isLoading, setIsLoading] = useState(false);
+  const previousImageUrlRef = useRef<string | undefined>(imageUrl);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const loadDelayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle texture loading with proper error handling
   useEffect(() => {
-    if (!imageUrl) {
-      setLoadedTexture(fallbackTexture);
+    // Clear any existing timeouts
+    if (loadDelayTimeoutRef.current) {
+      clearTimeout(loadDelayTimeoutRef.current);
+    }
+
+    // If imageUrl hasn't changed, do nothing
+    if (imageUrl === previousImageUrlRef.current && !isInitialLoad) {
       return;
     }
 
-    setIsLoading(true);
+    // Prevent multiple simultaneous loads
+    if (isLoading) {
+      return;
+    }
 
-    const loader = new THREE.TextureLoader();
-    loader.crossOrigin = "anonymous"; // Important for loading images from other domains
+    // If no imageUrl, use fallback
+    if (!imageUrl) {
+      setLoadedTexture(fallbackTexture);
+      if (onTextureLoad) {
+        onTextureLoad();
+      }
+      previousImageUrlRef.current = imageUrl;
+      setIsInitialLoad(false);
+      return;
+    }
 
-    loader.load(
-      imageUrl,
-      (texture) => {
-        // Success
-        texture.wrapS = THREE.RepeatWrapping; // Ensure wrapping is set
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.minFilter = THREE.LinearMipmapLinearFilter; // Use mipmapping filter for better scaling
-        texture.magFilter = THREE.LinearFilter;
-        texture.generateMipmaps = true; // Generate mipmaps
+    const loadTexture = () => {
+      setIsLoading(true);
 
-        setLoadedTexture(texture);
-        setIsLoading(false);
-        if (onTextureLoad) {
-          // Call callback if provided
-          onTextureLoad();
-        }
-      },
-      (progress) => {
-        // Progress - optional, good for loaders
-        // console.log('Loading texture:', (progress.loaded / progress.total * 100) + '%');
-      },
-      (error) => {
-        // Error - fall back to procedural texture
-        console.warn("Failed to load image:", error);
-        setLoadedTexture(fallbackTexture); // Use fallback on error
-        setIsLoading(false);
-      },
-    );
-  }, [imageUrl, fallbackTexture, onTextureLoad]); // Re-run when imageUrl changes
+      const loader = new THREE.TextureLoader();
+      loader.crossOrigin = "anonymous";
+
+      loader.load(
+        imageUrl,
+        (texture) => {
+          // Success - configure texture
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.minFilter = THREE.LinearMipmapLinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.generateMipmaps = true;
+
+          setLoadedTexture(texture);
+          setIsLoading(false);
+
+          if (onTextureLoad) {
+            onTextureLoad();
+          }
+        },
+        undefined,
+        (error) => {
+          console.warn("Failed to load image:", imageUrl, error);
+          setLoadedTexture(fallbackTexture);
+          setIsLoading(false);
+          if (onTextureLoad) {
+            onTextureLoad();
+          }
+        },
+      );
+    };
+
+    // For initial load, load immediately
+    // For subsequent loads, add delay for smooth transition
+    if (isInitialLoad) {
+      previousImageUrlRef.current = imageUrl;
+      setIsInitialLoad(false);
+      loadTexture();
+    } else {
+      loadDelayTimeoutRef.current = setTimeout(() => {
+        previousImageUrlRef.current = imageUrl;
+        loadTexture();
+      }, 300);
+    }
+  }, [imageUrl, fallbackTexture, onTextureLoad, isInitialLoad]);
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (loadDelayTimeoutRef.current) {
+        clearTimeout(loadDelayTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const numLayers = 5; // 1 large background + 4 smaller moving layers
+  const renderLayers = isLoading ? 1 : numLayers; // Reduce layers during loading
 
   return (
     <group>
-      {/* Render layers if not loading */}
-      {!isLoading &&
-        Array.from({ length: numLayers }, (_, i) => (
-          <TwistedLayer
-            key={`layer-${i}-${imageUrl || "default"}`} // Key helps React manage layers
-            texture={loadedTexture}
-            layerIndex={i}
-            totalLayers={numLayers}
-            resolution={resolution}
-            blurRadius={blurRadius}
-            samples={samples}
-            numLayers={numLayers}
-          />
-        ))}
-      {/* Show loading indicator mesh */}
-      {isLoading && (
-        <mesh>
-          <planeGeometry args={[4, 4]} />
-          <meshBasicMaterial color="#333" transparent opacity={0.5} />
-        </mesh>
-      )}
+      {/* Render layers - fewer during loading for better performance */}
+      {Array.from({ length: renderLayers }, (_, i) => (
+        <TwistedLayer
+          key={`layer-${i}-${imageUrl || "default"}`}
+          texture={loadedTexture}
+          layerIndex={i}
+          totalLayers={numLayers}
+          resolution={resolution}
+          blurRadius={
+            removeBlur ? 0 : isLoading ? blurRadius * 0.3 : blurRadius
+          }
+          samples={
+            removeBlur ? 0 : isLoading ? Math.max(5, samples * 0.2) : samples
+          }
+          numLayers={numLayers}
+        />
+      ))}
     </group>
   );
 }
@@ -702,6 +757,7 @@ interface SceneProps {
   boxBlurRadius: number;
   bokehSamples: number;
   onTextureLoad?: () => void;
+  removeBlur?: boolean;
 }
 
 function Scene({
@@ -712,6 +768,7 @@ function Scene({
   boxBlurRadius,
   bokehSamples,
   onTextureLoad,
+  removeBlur = false,
 }: SceneProps): React.JSX.Element {
   // Get camera and canvas size from useThree hook
   const { camera, size } = useThree();
@@ -736,11 +793,14 @@ function Scene({
         imageUrl={imageUrl}
         fallbackTexture={fallbackTexture}
         resolution={resolution}
-        blurRadius={0}
-        samples={0}
+        blurRadius={removeBlur ? 0 : blurRadius}
+        samples={removeBlur ? 0 : samples}
         onTextureLoad={onTextureLoad}
+        removeBlur={removeBlur}
       />
-      <PostProcessing blurRadius={boxBlurRadius} samples={bokehSamples} />
+      {!removeBlur && (
+        <PostProcessing blurRadius={boxBlurRadius} samples={bokehSamples} />
+      )}
     </>
   );
 }
@@ -755,7 +815,13 @@ interface MeshArtBackgroundProps {
   bokehSamples?: number;
   enableNavigationTransition?: boolean;
   transitionDuration?: number;
+  backgroundOpacity?: number;
   grain?: boolean | GrainOverlayProps;
+  removeBlur?: boolean;
+  noFadeIn?: boolean;
+  onLoadingStateChange?: (isLoading: boolean) => void;
+  sceneManager?: any; // BackgroundSceneManager instance
+  containerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export default function MeshArtBackground({
@@ -768,10 +834,14 @@ export default function MeshArtBackground({
   bokehSamples = 50, // Post-processing bokeh samples
   enableNavigationTransition = true,
   transitionDuration = 800, // ms
-  grain = true,
+  backgroundOpacity = 0.25, // Background transparency
+  grain = false,
+  removeBlur = false,
+  noFadeIn = false,
+  onLoadingStateChange,
 }: MeshArtBackgroundProps): React.JSX.Element {
   // State for texture loading (still needed for fade-in)
-  const [isTextureLoaded, setIsTextureLoaded] = useState(false);
+  const [isTextureLoaded, setIsTextureLoaded] = useState(noFadeIn || false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
 
@@ -784,23 +854,52 @@ export default function MeshArtBackground({
     return isDarkMode ? imageUrlDark : imageUrlLight;
   }, [imageUrl, imageUrlLight, imageUrlDark, isDarkMode]);
 
+  // Reset texture loaded state when image URL changes for proper fade out/in
+  useEffect(() => {
+    if (!noFadeIn) {
+      setIsTextureLoaded(false);
+      onLoadingStateChange?.(true);
+    }
+  }, [currentImageUrl, onLoadingStateChange, noFadeIn]);
+
+  // Update texture loaded state when noFadeIn changes
+  useEffect(() => {
+    if (noFadeIn) {
+      setIsTextureLoaded(true);
+    }
+  }, [noFadeIn]);
+
   // Detect theme changes
   useEffect(() => {
     // Check initial theme
     const checkTheme = () => {
-      setIsDarkMode(document.documentElement.classList.contains("dark"));
+      const newIsDarkMode = document.documentElement.classList.contains("dark");
+      setIsDarkMode(newIsDarkMode);
     };
 
     checkTheme();
 
     // Listen for theme changes
     const observer = new MutationObserver(checkTheme);
+
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
-    return () => observer.disconnect();
+    // Also listen for manual theme toggle events (common in theme switchers)
+    const handleThemeChange = () => {
+      setTimeout(checkTheme, 50); // Small delay to ensure DOM is updated
+    };
+
+    document.addEventListener("themechange", handleThemeChange);
+    window.addEventListener("storage", handleThemeChange); // For localStorage theme changes
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("themechange", handleThemeChange);
+      window.removeEventListener("storage", handleThemeChange);
+    };
   }, []);
 
   // Handle navigation transitions
@@ -844,7 +943,9 @@ export default function MeshArtBackground({
   }, [enableNavigationTransition, transitionDuration]);
 
   if (typeof document === "undefined") {
-    return <></>;
+    return (
+      <div className="fixed inset-0 -z-10 h-screen w-full max-w-screen overflow-hidden dark:bg-neutral-900" />
+    );
   }
 
   // Create fallback procedural texture using useMemo to avoid recreating
@@ -910,30 +1011,41 @@ export default function MeshArtBackground({
   }, [grain]);
 
   return (
-    <div className="fixed inset-0 -z-10 h-screen w-full max-w-screen overflow-hidden dark:bg-black">
+    <div className="fixed inset-0 -z-10 h-screen w-full max-w-screen overflow-hidden transition-colors duration-300 dark:bg-neutral-900">
       <Canvas
         style={{
-          transition: `opacity ${isNavigating ? transitionDuration : 1000}ms ease-in-out`,
+          transition: `opacity ${isNavigating ? transitionDuration : 600}ms ease-out`,
           opacity:
-            isTextureLoaded && !isNavigating ? (isDarkMode ? 0.25 : 0.25) : 0,
+            noFadeIn || isTextureLoaded || !isNavigating
+              ? backgroundOpacity
+              : 0,
+          willChange: "opacity",
+          transform: "translateZ(0)",
         }}
         key={imageUrl}
         camera={{ position: [0, 0, 4], fov: 75 }}
         gl={{
-          antialias: true,
+          antialias: false,
           alpha: true,
-          powerPreference: "low-power",
+          powerPreference: "high-performance",
+          preserveDrawingBuffer: false,
+          stencil: false,
+          depth: false,
         }}
         className="absolute inset-0"
       >
         <Scene
           imageUrl={currentImageUrl}
           fallbackTexture={fallbackTexture}
-          blurRadius={blurRadius}
-          samples={samples}
-          boxBlurRadius={boxBlurRadius}
-          bokehSamples={bokehSamples}
-          onTextureLoad={() => setIsTextureLoaded(true)}
+          blurRadius={removeBlur ? 0 : blurRadius}
+          samples={removeBlur ? 0 : samples}
+          boxBlurRadius={removeBlur ? 0 : boxBlurRadius}
+          bokehSamples={removeBlur ? 0 : bokehSamples}
+          onTextureLoad={() => {
+            setIsTextureLoaded(true);
+            onLoadingStateChange?.(false);
+          }}
+          removeBlur={removeBlur}
         />
       </Canvas>
     </div>

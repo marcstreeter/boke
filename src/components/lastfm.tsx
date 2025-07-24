@@ -1,77 +1,33 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useLastFM } from "../hooks/useLastFM";
 import { ScrollingText } from "./scrolling-text";
 import { CrossFade } from "react-crossfade-simple";
 import { FaLastfm } from "react-icons/fa";
-import { LuFileWarning } from "react-icons/lu";
+import { LuExternalLink, LuFileWarning } from "react-icons/lu";
+import { SmoothImage } from "./SmoothImage";
+import { useEffect } from "react";
+import { setBackgroundState } from "../hooks/useBackgroundState";
 
-interface Track {
-  name: string;
-  artist: string;
-  imageUrl: string;
-  isCurrent: boolean;
-}
-
-const FM_KEY = "6f5ff9d828991a85bd78449a85548586";
 const MAIN = "kanb";
 
-const fetchTrack = async (): Promise<Track> => {
-  const res = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${MAIN}&api_key=${FM_KEY}&limit=1&format=json`,
-  );
-  const data = await res.json();
-  let recentTrack = data?.recenttracks.track[0];
-  return {
-    name: recentTrack.name,
-    artist: recentTrack.artist["#text"],
-    imageUrl: recentTrack.image[recentTrack.image.length - 1]["#text"],
-    isCurrent: recentTrack["@attr"]?.nowplaying == "true",
-  };
-};
-
 export function LastFM() {
-  const [data, setData] = useState<Track | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const { data, error, loading } = useLastFM(10000);
 
   useEffect(() => {
-    let isMounted = true;
-    let interval: NodeJS.Timeout;
-
-    const getData = async () => {
-      try {
-        const track = await fetchTrack();
-        if (isMounted) {
-          setData(track);
-          setError(null);
-        }
-      } catch (err: any) {
-        if (isMounted) {
-          setError(err);
-        }
-      }
-    };
-
-    getData();
-    interval = setInterval(getData, 10000);
-
-    return () => {
-      isMounted = false;
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
+    const newOpacity = data?.imageUrl ? 0.65 : 0;
+    setBackgroundState({
+      currentImageUrl: data?.imageUrl,
+      backgroundOpacity: newOpacity,
+    });
+  }, [data?.imageUrl, data]);
 
   return (
     <CrossFade
       contentKey={(data?.name || "abc") + data?.artist + data?.imageUrl}
+      timeout={600}
     >
       {data ? (
-        <div className="justify-left flex h-full w-[95vw] max-w-lg min-w-full flex-row items-center overflow-visible">
+        <div className="justify-left group flex h-full w-[95vw] max-w-lg min-w-full flex-row items-center overflow-visible">
           <div className="h-20 overflow-visible">
             {data.imageUrl ===
             "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png" ? (
@@ -80,18 +36,27 @@ export function LastFM() {
                 <p>No cover found!</p>
               </div>
             ) : (
-              <img
+              <SmoothImage
                 src={data.imageUrl}
+                base64Src={data.base64Image}
                 alt="cover"
                 className="margin-auto ambilight z-20 mr-4 max-h-20 max-w-20 self-center overflow-visible rounded-lg border border-gray-500/20 contain-content dark:border-neutral-600/30"
               />
             )}
           </div>
           <div className="items-left flex w-min max-w-[calc(95%-6rem)] flex-col justify-center leading-normal">
-            <div className="w-max text-left text-sm text-gray-600 dark:text-gray-400">
-              {data.isCurrent ? "Now Playing" : "Last Played"} on{" "}
-              <a href={`https://www.last.fm/user/${MAIN}`} target="_blank">
-                <FaLastfm className="hover:text-wisteria-500 dark:hover:text-wisteria-200 mb-0.5 inline text-base transition-colors duration-150" />
+            <div className="flex min-w-sm justify-between">
+              <div className="w-max text-left text-sm text-gray-600 dark:text-gray-400">
+                {data.isCurrent ? "Now Playing" : "Last Played"} on{" "}
+                <a href={`https://www.last.fm/user/${MAIN}`} target="_blank">
+                  <FaLastfm className="hover:text-wisteria-500 dark:hover:text-wisteria-200 mb-0.5 inline text-base transition-colors duration-150" />
+                </a>
+              </div>
+              <a
+                href="/lfm"
+                className="opacity-0 duration-150 group-hover:opacity-100"
+              >
+                <LuExternalLink />
               </a>
             </div>
             <a

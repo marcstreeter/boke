@@ -1,6 +1,5 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import Header from "../components/Header.astro";
 
 import { cn } from "../lib/utils";
 import "../styles/global.css";
@@ -37,8 +36,6 @@ if (!image && title) {
   };
   image = `https://ogimage-workers.kanbaru.workers.dev/?${new URLSearchParams(params)}`;
 }
-
-const isHome = Astro.url.pathname === "/";
 ---
 
 <html lang="en">
@@ -93,20 +90,12 @@ const isHome = Astro.url.pathname === "/";
     <ClientRouter />
   </head>
   <body
-    class="max-h-max min-h-screen w-screen max-w-screen overflow-x-clip font-sans text-zinc-900 antialiased transition-colors dark:bg-zinc-900 dark:text-zinc-200"
+    class={cn(
+      "max-h-max min-h-screen w-screen max-w-screen overflow-x-clip font-sans text-zinc-900 antialiased transition-colors dark:bg-zinc-900 dark:text-zinc-200",
+      className,
+    )}
   >
-    <div
-      id="page-container"
-      class={cn(
-        "mx-auto p-4 layout-transition",
-        isHome ? "centered-layout max-w-lg" : "default-layout max-w-prose",
-        className,
-      )}
-      style="view-transition-name: page-container"
-    >
-      <Header />
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
 

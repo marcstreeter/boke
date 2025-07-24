@@ -1,16 +1,18 @@
 ---
 import Ambilight from "../components/ambilight.astro";
-import BackgroundClock from "../components/BackgroundClock.tsx";
-import { GrainOverlay } from "../components/GrainOverlay";
 import { IconRow } from "../components/icon-row.tsx";
+import { LastFmBackground } from "../components/lastfm-bg";
 import { LastFM } from "../components/lastfm.tsx";
+import PersistWrapper from "../components/PersistWrapper.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <Ambilight />
-  <BackgroundClock client:load />
+  <PersistWrapper>
+    <LastFmBackground client:only useDefaultImages={true} />
+  </PersistWrapper>
   <main class="flex w-full flex-col items-start space-y-4">
     <div class="space-y-2 text-start">
       <img
@@ -65,8 +67,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </div>
     <div class="h-26 max-w-full border-t border-neutral-500/50 pt-6">
-      <LastFM client:load />
+      <LastFM client:load client:only />
     </div>
-    <GrainOverlay />
   </main>
 </Layout>
