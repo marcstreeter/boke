@@ -60,9 +60,6 @@ export function LastFmBackground({
   ]);
 
   // if we're on / set var to 0.25, else 0.75
-  //
-  console.log(new URL(window.location.href).pathname == "/");
-
   let opacity = 0.75;
   if (new URL(window.location.href).pathname === "/") opacity = 0.25;
 

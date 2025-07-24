@@ -11,8 +11,16 @@ import { SmoothImage } from "./SmoothImage";
 
 const MAIN = "kanb";
 
+// useQueryParam
+function useQueryParam(param: string): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param) || undefined;
+}
+
 export function LastFMFullscreen() {
-  const { data, error } = useLastFM(3000); // Removed unused 'loading'
+  let userParam = useQueryParam("user");
+  const { data, error } = useLastFM(3000, userParam); // Removed unused 'loading'
 
   // Update background state when data changes
   useEffect(() => {

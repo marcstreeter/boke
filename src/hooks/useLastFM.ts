@@ -29,9 +29,9 @@ const imageToBase64 = async (url: string): Promise<string | null> => {
   }
 };
 
-const fetchTrack = async (): Promise<Track> => {
+const fetchTrack = async (user = MAIN): Promise<Track> => {
   const res = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${MAIN}&api_key=${FM_KEY}&limit=1&format=json`,
+    `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${FM_KEY}&limit=1&format=json`,
   );
   const data = await res.json();
   let recentTrack = data?.recenttracks.track[0];
@@ -94,7 +94,7 @@ const notifySubscribers = () => {
   subscribers.forEach((callback) => callback());
 };
 
-const startGlobalFetching = (intervalMs: number) => {
+const startGlobalFetching = (intervalMs: number, user?: string) => {
   // Only restart if interval changed or not running
   if (fetchInterval && currentIntervalMs === intervalMs) {
     return;
@@ -108,7 +108,7 @@ const startGlobalFetching = (intervalMs: number) => {
 
   const getData = async () => {
     try {
-      const track = await fetchTrack();
+      const track = await fetchTrack(user);
       globalData = track;
       globalError = null;
       globalLoading = false;
@@ -136,7 +136,7 @@ const stopGlobalFetching = () => {
   }
 };
 
-export function useLastFM(intervalMs: number = 10000) {
+export function useLastFM(intervalMs: number = 10000, user = MAIN) {
   const [, forceUpdate] = useState({});
   const subscriberRef = useRef<() => void | undefined>(undefined);
 
@@ -150,7 +150,7 @@ export function useLastFM(intervalMs: number = 10000) {
     subscribers.add(subscriberRef.current);
 
     // Start or update fetching
-    startGlobalFetching(intervalMs);
+    startGlobalFetching(intervalMs, user);
 
     // Cleanup
     return () => {
@@ -163,7 +163,7 @@ export function useLastFM(intervalMs: number = 10000) {
         stopGlobalFetching();
       }
     };
-  }, [intervalMs]);
+  }, [intervalMs, user]);
 
   useEffect(() => {
     if (globalData) {
