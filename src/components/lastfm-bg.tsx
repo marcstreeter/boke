@@ -81,7 +81,11 @@ export function LastFmBackground({
           <MeshArtBackground imageUrl={currentImage} backgroundOpacity={1} />
         </div>
       </CrossFade>
-      <GrainOverlay animate={opacity > 0.25} opacity={Math.min(opacity, 0.5)} />
+      <GrainOverlay
+        blendMode="multiply"
+        animate={opacity > 0.25}
+        opacity={Math.min(opacity, 0.25)}
+      />
     </>
   );
 }
