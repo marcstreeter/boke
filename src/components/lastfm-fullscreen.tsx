@@ -20,6 +20,7 @@ function useQueryParam(param: string): string | undefined {
 
 export function LastFMFullscreen() {
   let userParam = useQueryParam("user");
+  let hideParam = Boolean(useQueryParam("hide"));
   const { data, error } = useLastFM(3000, userParam); // Removed unused 'loading'
 
   // Update background state when data changes
@@ -30,6 +31,10 @@ export function LastFMFullscreen() {
       backgroundOpacity: newOpacity,
     });
   }, [data?.imageUrl, data]);
+
+  if (hideParam) {
+    return <></>;
+  }
 
   return (
     <CrossFade
