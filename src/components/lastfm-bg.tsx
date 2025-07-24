@@ -59,6 +59,13 @@ export function LastFmBackground({
     activeKey,
   ]);
 
+  // if we're on / set var to 0.25, else 0.75
+  //
+  console.log(new URL(window.location.href).pathname == "/");
+
+  let opacity = 0.75;
+  if (new URL(window.location.href).pathname === "/") opacity = 0.25;
+
   return (
     <>
       <CrossFade contentKey={activeKey}>
@@ -67,16 +74,14 @@ export function LastFmBackground({
             position: "absolute",
             inset: 0,
             pointerEvents: "none",
+            opacity: opacity,
+            transition: skipFadeIn ? "none" : "opacity 0.6s ease-in-out",
           }}
         >
-          <MeshArtBackground
-            imageUrl={currentImage}
-            backgroundOpacity={0.25}
-            noFadeIn={true}
-          />
+          <MeshArtBackground imageUrl={currentImage} backgroundOpacity={1} />
         </div>
       </CrossFade>
-      <GrainOverlay animate />
+      <GrainOverlay animate={opacity > 0.25} opacity={Math.min(opacity, 0.5)} />
     </>
   );
 }

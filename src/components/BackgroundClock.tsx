@@ -862,12 +862,12 @@ export default function MeshArtBackground({
     }
   }, [currentImageUrl, onLoadingStateChange, noFadeIn]);
 
-  // Update texture loaded state when noFadeIn changes
-  useEffect(() => {
-    if (noFadeIn) {
-      setIsTextureLoaded(true);
-    }
-  }, [noFadeIn]);
+  // // Update texture loaded state when noFadeIn changes
+  // useEffect(() => {
+  //   if (noFadeIn) {
+  //     setIsTextureLoaded(true);
+  //   }
+  // }, [noFadeIn]);
 
   // Detect theme changes
   useEffect(() => {
