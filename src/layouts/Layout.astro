@@ -155,5 +155,11 @@ const isHome = Astro.url.pathname === "/";
 
   setTheme();
 
-  document.addEventListener("astro:after-swap", setTheme);
+  document.addEventListener("astro:page-load", () => {
+    setTheme();
+  });
+
+  document.addEventListener("astro:after-swap", () => {
+    setTheme();
+  });
 </script>
