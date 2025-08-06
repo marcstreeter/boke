@@ -23,7 +23,7 @@ I'd been using Bluesky more and really enjoying it. Recently, the community has 
 
 ## Why Bluesky Actually Makes Sense
 
-The more I thought about it, the more it clicked:
+The more I thought about it, the more directly using Bluesky for comments made sense:
 
 * No infrastructure to maintain. (for me, at least) I don't need to run databases, manage user accounts, or build moderation tools. Bluesky handles all of that.
 
@@ -140,11 +140,13 @@ I'm considering a few improvements, but honestly, the core system works so well 
 
 ## Why This Approach Works
 
-Traditional comment systems try to recreate social media features on every individual website. That's backwards. People already have social media accounts they like using. Instead of forcing them to create new accounts and learn new interfaces, why not try meeting them where they already are?
+Traditional comment systems try to recreate social media features on every individual website. I think that's backwards. People already have social media accounts they like using. Instead of forcing them to create new accounts and learn new interfaces, why not try meeting them where they already are?
 
-This approach scales with the platform instead of against it. As Bluesky grows, more people can participate in blog discussions without any additional work from me. And because everything is built on open protocols, I'm not locked into any single platform's decisions. If Bluesky ever changes for the worse, I can always switch to another AppView, such as zeppelin or Blacksky's own.
+This approach scales with the platform because it *uses* the platform. As Bluesky grows, more people can participate in blog discussions without any additional work from me. And because everything is built on open protocols, I'm not locked into any single platform's decisions. If Bluesky ever changes for the worse, I can always switch to another AppView, such as zeppelin or Blacksky's AppView.
 
-In my opinion, the web is better when independent sites can connect to broader conversations without sacrificing their independence. I feel like this ~~is~~ was the goal of other decentralised platforms like Mastodon, but Bluesky's focus on user-owned identities and app intercompat via the PDS makes it a better fit.
+I could theoretically even write my own comments AppView. ATProto is designed to be flexible, especially with data, so doing such would be quite simple. I'd just need to listen to the right events on the firehose and store the data in a way that makes sense and rebuild the comment thread every so often.
+
+In my opinion, the web is better when independent sites can connect to broader conversations without sacrificing their independence. I feel like this ~~is~~ was the goal of other decentralised platforms like Mastodon, but Bluesky's focus on user-owned identities and app intercompat via the PDS ultimately makes it a better fit.
 
 ---
 

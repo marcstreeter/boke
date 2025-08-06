@@ -177,7 +177,7 @@ const BlueskyReply = ({
 
   // Add visual connector line for nested replies
   const connectorClass =
-    depth > 1 ? "border-l border-gray-300 dark:border-gray-700 pl-4" : "";
+    depth > 1 ? "border-l border-gray-300 dark:border-gray-700 pl-6" : "";
 
   return (
     <div
@@ -185,7 +185,7 @@ const BlueskyReply = ({
       style={{ marginLeft: depth > 1 ? 12 : 0 }}
     >
       {!skipFirst && (
-        <div className={`bluesky-reply my-4 mb-1 ${connectorClass}`}>
+        <div className={`bluesky-reply py-2 pb-1 ${connectorClass}`}>
           {/* Author Section */}
           <div className="mb-2 flex items-center">
             <img
