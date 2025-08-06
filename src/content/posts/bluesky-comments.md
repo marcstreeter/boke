@@ -124,9 +124,9 @@ There are proper TypeScript types for all their API responses through the `@atcu
 
 ### Progressive Enhancement Works
 
-I built the comments as an enhancement to the blog, not a core dependency. If JavaScript is disabled or the API is down, the blog still works perfectly. The comments just don't appear.
+I built the comments as an enhancement to the blog, not a core dependency. If JavaScript is disabled or the API is down, the blog post (rendered a long time ago) still works perfectly. The comments just don't appear.
 
-### Performance by Default
+### Performance by Default (-ish)
 
 Since I'm not managing any backend infrastructure, server-side performance optimizations are just there. Bluesky's CDN handles image delivery, their public API is fast and cached, and I don't have to care about database queries or server scaling.
 
