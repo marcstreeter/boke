@@ -98,10 +98,10 @@
       }
     }
     ol {
-      @apply my-1 list-inside list-decimal space-y-1 [&_ol]:pl-5 [&_ul]:pl-5;
+      @apply my-1 list-decimal space-y-1 [&_ol]:pl-5 [&_ul]:pl-5;
     }
     ul {
-      @apply my-1 list-inside list-disc space-y-1 [&_ol]:pl-5 [&_ul]:pl-5;
+      @apply my-1 list-disc space-y-1 [&_ol]:pl-5 [&_ul]:pl-5;
     }
     kbd {
       @apply rounded-sm border border-b-2 bg-zinc-100 px-1 py-0.5 font-mono text-xs font-medium text-black dark:border-zinc-700 dark:bg-zinc-800 dark:text-white;

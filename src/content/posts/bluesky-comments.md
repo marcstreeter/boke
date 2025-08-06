@@ -1,6 +1,6 @@
 ---
 title: "Building Bluesky Comments for My Blog"
-description: "Why I ditched traditional comment systems for something better"
+description: "I hate discus too much."
 date: "Aug 6 2025"
 bsky:
   did: "did:plc:example123"
@@ -11,13 +11,13 @@ bsky:
 
 I've been running my blog without decent comments for years. Not by choice, really - I just couldn't find a solution that didn't suck.
 
-* **Disqus?** Slow, heavy, tracks users, and I don't own anything. Plus it makes every page 100x slower to load.
+* Disqus? Slow, heavy, tracks users, and I don't own anything. Plus it makes every page 100x slower to load.
 
-* **Self-hosted solutions?** Great in theory. In practice, you're signing up to manage users, moderate spam, maintain databases, and deal with all the headaches that come with running a social platform in miniature. And if your users aren't where you are, it's slow as hell.
+* Self-hosted solutions? Great in theory. (not really.) You're signing up to manage users, moderate spam, maintain databases, and deal with all the headaches that come with running basically a miniature social platform. And if your users aren't where you are, it's probably slow as hell.
 
-* **GitHub Issues as comments?** Works for some developer blogs, but feels hacky and limits your audience to people with GitHub accounts.
+* GitHub Issues as comments? Probably works for some developer blogs, but feels hacky and limits your audience to people with GitHub accounts.
 
-* **No comments at all?** Clean and simple, but you lose the conversations. Some of my favorite discoveries came from comment threads that went in unexpected directions.
+* No comments at all? Clean and simple, but you lose the conversations. Some of my favorite discoveries came from comment threads that went in unexpected directions.
 
 I'd been using Bluesky more and really enjoying it. Recently, the community has been feeling healthier than Twitter ever did, the API is designed, and this decentralized approach means I don't necessarily have to be beholden to a single company. People have been doing some interesting things with Bluesky, like cross-posting blog content and using it as a comment system. Why not do that for myself?
 
@@ -25,15 +25,15 @@ I'd been using Bluesky more and really enjoying it. Recently, the community has 
 
 The more I thought about it, the more it clicked:
 
-* **No infrastructure to maintain.** (for me, at least) I don't need to run databases, manage user accounts, or build moderation tools. Bluesky handles all of that.
+* No infrastructure to maintain. (for me, at least) I don't need to run databases, manage user accounts, or build moderation tools. Bluesky handles all of that.
 
-* **Rich(er) content support.** People can post images, links, and in threads. All the stuff that makes conversations interesting.
+* Rich(er) content support. People can post images, links, and in threads. All the stuff that makes conversations interesting.
 
-* **Real identities.** Since people are using their actual Bluesky profiles, and your one profile can *actually* be used on any supported platform, there's more accountability and less incentive to drive-by troll.
+* Real identities. Since people are using their actual Bluesky profiles, and your one profile can *actually* be used on any supported platform, there's more accountability and less incentive to drive-by troll.
 
-* **Cross-platform conversations.** Comments live on Bluesky too, so people can discover my blog posts through social media and vice versa.
+* Cross-platform conversations. Comments live on Bluesky too, so people can discover my blog posts through social media and vice versa.
 
-* **I own my content, they own theirs.** No platform lock-in for anyone!
+* I own my content, they own theirs. No platform lock-in for anyone!
 
 The workflow is simple: I publish a blog post, share it on Bluesky, and the replies to that Bluesky post become the comments on my blog.
 
@@ -148,4 +148,4 @@ In my opinion, the web is better when independent sites can connect to broader c
 
 ---
 
-*Want to see it in action? The comments are right below this post, powered by the system I just described. Meta, but in a good way.*
+*Want to see it in action? The comments are right below this post, powered by the system I mentioned above. Meta.*
