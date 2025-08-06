@@ -19,7 +19,7 @@ I've been running my blog without decent comments for years. Not by choice, real
 
 * No comments at all? Clean and simple, but you lose the conversations. Some of my favorite discoveries came from comment threads that went in unexpected directions.
 
-I'd been using Bluesky more and really enjoying it. Recently, the community has been feeling healthier than Twitter ever did, the API is designed, and this decentralized approach means I don't necessarily have to be beholden to a single company. People have been doing some interesting things with Bluesky, like cross-posting blog content and using it as a comment system. Why not do that for myself?
+I'd been using Bluesky more and really enjoying it. Recently, the community has been feeling healthier than Twitter ever did, the API is designed, and this decentralized approach means I don't necessarily have to be beholden to a single company. People have been doing some interesting things with Bluesky, like on-protocol blog content and using Bluesky comments as a comment system. Why not do some of that for myself?
 
 ## Why Bluesky Actually Makes Sense
 
