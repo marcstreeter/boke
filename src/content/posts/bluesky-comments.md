@@ -1,6 +1,6 @@
 ---
 title: "Building Bluesky Comments for My Blog"
-description: "I hate discus too much."
+description: "I hate disqus too much."
 date: "Aug 6 2025"
 bsky:
   did: "did:plc:example123"
