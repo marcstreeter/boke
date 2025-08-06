@@ -1,12 +1,12 @@
 "use client";
-import { useLastFM } from "../hooks/useLastFM";
-import { ScrollingText } from "./scrolling-text";
+import { useLastFM } from "../../hooks/useLastFM";
+import { ScrollingText } from "../scrolling-text";
 import { CrossFade } from "react-crossfade-simple";
 import { FaLastfm } from "react-icons/fa";
 import { LuExternalLink, LuFileWarning } from "react-icons/lu";
-import { SmoothImage } from "./SmoothImage";
+import { SmoothImage } from "../SmoothImage";
 import { useEffect } from "react";
-import { setBackgroundState } from "../hooks/useBackgroundState";
+import { setBackgroundState } from "../../hooks/useBackgroundState";
 
 const MAIN = "kanb";
 

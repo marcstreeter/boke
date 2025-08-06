@@ -18,6 +18,8 @@
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
+    "@atcute/bluesky": "^3.2.0",
+    "@atcute/client": "^4.0.3",
     "@nanostores/react": "^1.0.0",
     "@react-three/drei": "^10.5.0",
     "@react-three/fiber": "^9.2.0",

@@ -1,8 +1,8 @@
 ---
 import Ambilight from "../components/ambilight.astro";
-import { IconRow } from "../components/icon-row.tsx";
+import { IconRow } from "../components/home/icon-row.tsx";
+import { LastFM } from "../components/home/lastfm.tsx";
 import { LastFmBackground } from "../components/lastfm-bg";
-import { LastFM } from "../components/lastfm.tsx";
 import PersistWrapper from "../components/PersistWrapper.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
@@ -36,10 +36,7 @@ import Layout from "../layouts/Layout.astro";
           most recently, i've been working at <a
             class="underline dark:border-sky-300 dark:text-sky-300"
             href="https://stream.place/">streamplace</a
-          >, helping make live video easy and open for everyone, forever. before
-          that, i built an encoder pipeline and designed parts of a hobby OTT
-          VOD service, so I have a reasonable understanding of the challenges
-          behind the scenes.
+          >, helping make live video easy and open for everyone, forever.
         </div>
         <div>
           <a

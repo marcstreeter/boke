@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { CrossFade } from "react-crossfade-simple";
 import { useBackgroundState } from "../hooks/useBackgroundState";
-import MeshArtBackground from "./BackgroundClock";
-import { GrainOverlay } from "./GrainOverlay";
+import MeshArtBackground from "./home/BackgroundClock";
+import { GrainOverlay } from "./home/GrainOverlay";
 
 interface LastFmBackgroundProps {
   useDefaultImages?: boolean;

@@ -9,6 +9,7 @@ interface TocItem {
 
 interface TableOfContentsProps {
   className?: string;
+  hasComments?: boolean;
 }
 
 type TOCThumb = [top: number, height: number];
@@ -169,6 +170,7 @@ function TOCItem({
 
 export default function TableOfContents({
   className = "",
+  hasComments = false,
 }: TableOfContentsProps) {
   const [toc, setToc] = useState<TocItem[]>([]);
   const [activeItems, setActiveItems] = useState<string[]>([]);
@@ -211,8 +213,17 @@ export default function TableOfContents({
       });
     });
 
+    // Add comments section if it exists
+    if (hasComments) {
+      tocItems.push({
+        id: "comments",
+        text: "Comments",
+        level: 2,
+      });
+    }
+
     setToc(tocItems);
-  }, []);
+  }, [hasComments]);
 
   // Track screen size
   useEffect(() => {

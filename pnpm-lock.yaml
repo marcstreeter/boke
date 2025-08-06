@@ -26,6 +26,12 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.2
         version: 5.1.5(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@4.44.2)(typescript@5.8.3)(yaml@2.8.0))(tailwindcss@4.1.11)
+      '@atcute/bluesky':
+        specifier: ^3.2.0
+        version: 3.2.0
+      '@atcute/client':
+        specifier: ^4.0.3
+        version: 4.0.3
       '@nanostores/react':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@1.0.1)(react@19.1.0)
@@ -171,6 +177,21 @@ packages:
   '@astrojs/yaml2ts@0.2.2':
     resolution: {integrity: sha512-GOfvSr5Nqy2z5XiwqTouBBpy5FyI6DEe+/g/Mk5am9SjILN1S5fOEvYK0GuWHg98yS/dobP4m8qyqw/URW35fQ==}
 
+  '@atcute/atproto@3.1.1':
+    resolution: {integrity: sha512-D+RLTIPF0xLu7BPZY8KSewAPemJFh+3n3zeQ3ROsLxbTtCHbrTDMAmAFexaVRAPGcPYrwXaBUlv7yZjScJolMg==}
+
+  '@atcute/bluesky@3.2.0':
+    resolution: {integrity: sha512-OqPLqUNjXcgQ25MaPdU7H0QcWmZrx6QQk7d5B22A5U4xy+hZJ954kQ5mSAn24Bt0DEm4j/isq1WZovr3vaPTUA==}
+
+  '@atcute/client@4.0.3':
+    resolution: {integrity: sha512-RIOZWFVLca/HiPAAUDqQPOdOreCxTbL5cb+WUf5yqQOKIu5yEAP3eksinmlLmgIrlr5qVOE7brazUUzaskFCfw==}
+
+  '@atcute/identity@1.0.3':
+    resolution: {integrity: sha512-mNMxbKHFGys03A8JXKk0KfMBzdd0vrYMzZZWjpw1nYTs0+ea6bo5S1hwqVUZxHdo1gFHSe/t63jxQIF4yL9aKw==}
+
+  '@atcute/lexicons@1.1.0':
+    resolution: {integrity: sha512-LFqwnria78xLYb62Ri/+WwQpUTgZp2DuyolNGIIOV1dpiKhFFFh//nscHMA6IExFLQRqWDs3tTjy7zv0h3sf1Q==}
+
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
     engines: {node: '>=6.9.0'}
@@ -257,6 +278,10 @@ packages:
   '@babel/types@7.28.0':
     resolution: {integrity: sha512-jYnje+JyZG5YThjHiF28oT4SIZLnYOcSBb6+SDaFIyzDVSkXQmQQYclJ2R+YxcdmK0AX6x1E5OQNtuh3jHDrUg==}
     engines: {node: '>=6.9.0'}
+
+  '@badrap/valita@0.4.6':
+    resolution: {integrity: sha512-4kdqcjyxo/8RQ8ayjms47HCWZIF5981oE5nIenbfThKDxWXtEHKipAOWlflpPJzZx9y/JWYQkp18Awr7VuepFg==}
+    engines: {node: '>= 18'}
 
   '@capsizecss/unpack@2.4.0':
     resolution: {integrity: sha512-GrSU71meACqcmIUxPYOJvGKF0yryjN/L1aCuE9DViCTJI7bfkjgYDPD1zbNDcINJwSSP6UaBZY9GAbYDO7re0Q==}
@@ -1376,6 +1401,9 @@ packages:
   escape-string-regexp@5.0.0:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
+
+  esm-env@1.2.2:
+    resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
 
   estree-util-attach-comments@3.0.0:
     resolution: {integrity: sha512-cKUwm/HUcTDsYh/9FgnuFqpfquUbwIqwKM26BVCGDPVgvaCl/nDCCjUfiLlx6lsEZ3Z4RFxNbOQ60pkaEwFxGw==}
@@ -3194,6 +3222,29 @@ snapshots:
     dependencies:
       yaml: 2.8.0
 
+  '@atcute/atproto@3.1.1':
+    dependencies:
+      '@atcute/lexicons': 1.1.0
+
+  '@atcute/bluesky@3.2.0':
+    dependencies:
+      '@atcute/atproto': 3.1.1
+      '@atcute/lexicons': 1.1.0
+
+  '@atcute/client@4.0.3':
+    dependencies:
+      '@atcute/identity': 1.0.3
+      '@atcute/lexicons': 1.1.0
+
+  '@atcute/identity@1.0.3':
+    dependencies:
+      '@atcute/lexicons': 1.1.0
+      '@badrap/valita': 0.4.6
+
+  '@atcute/lexicons@1.1.0':
+    dependencies:
+      esm-env: 1.2.2
+
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.27.1
@@ -3307,6 +3358,8 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
+
+  '@badrap/valita@0.4.6': {}
 
   '@capsizecss/unpack@2.4.0':
     dependencies:
@@ -4468,6 +4521,8 @@ snapshots:
   escape-string-regexp@4.0.0: {}
 
   escape-string-regexp@5.0.0: {}
+
+  esm-env@1.2.2: {}
 
   estree-util-attach-comments@3.0.0:
     dependencies:
