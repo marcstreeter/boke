@@ -19,7 +19,7 @@ I've been running my blog without decent comments for years. Not by choice, real
 
 * No comments at all? Clean and simple, but you lose the conversations. Some of my favorite discoveries came from comment threads that went in unexpected directions.
 
-I'd been using Bluesky more and really enjoying it. Recently, the community has been feeling healthier than Twitter ever did, the API is designed, and this decentralized approach means I don't necessarily have to be beholden to a single company. People have been doing some interesting things with Bluesky, like on-protocol blog content and using Bluesky comments as a comment system. Why not do some of that for myself?
+I've been a Bluesky user for a while. Recently, the community has been feeling healthier than Twitter ever did, the API is designed, and this decentralized approach means I don't necessarily have to be beholden to a single company. People have been doing some interesting things with Bluesky, like on-protocol blog content and using Bluesky comments as a comment system. Why not do some of that for myself?
 
 ## Why Bluesky Actually Makes Sense
 
@@ -35,7 +35,7 @@ The more I thought about it, the more directly using Bluesky for comments made s
 
 * I own my content, they own theirs. No platform lock-in for anyone!
 
-The workflow is simple: I publish a blog post, share it on Bluesky, and the replies to that Bluesky post become the comments on my blog.
+The workflow is simple: I publish a blog post, share it on Bluesky, edit the post to add the AT URI, and the replies to that Bluesky post become the comments on my blog.
 
 ## Building the Component
 
@@ -45,7 +45,7 @@ Bluesky runs on the AT Protocol, which has surprisingly okay documentation. The 
 
 - **DIDs** (Decentralized Identifiers): Unique user IDs like `did:plc:abc123...` or `did:web:joe.coffee`
 - **CIDs** (Content Identifiers): Unique post IDs
-- **AT-URIs**: Addresses for content like `at://did:plc:user.../app.bsky.feed.post/postid`
+- **AT URIs**: Addresses for content like `at://did:plc:user.../app.bsky.feed.post/postid`
 
 To fetch comments, I just need to call the `getPostThread` endpoint with the right URI. No authentication required. Easy peasy.
 
@@ -54,7 +54,7 @@ To fetch comments, I just need to call the `getPostThread` endpoint with the rig
 I ended up with three main pieces:
 
 1. The main comments component that fetches and displays the thread.
-2. A reply component that handles rendering individual posts and their replies.
+2. A reply component that handles rendering individual posts and their replies. Also includes metadata and a link to the original Bluesky post.
 3. An embed component for rich content like images and open graph previews.
 
 This separation made each piece reasonably manageable, reasonable, and small.
@@ -92,7 +92,7 @@ One of the nice things about Bluesky is that posts can contain more than just te
 
 ### Integrating with Astro
 
-Getting this working with my Astro blog was straightforward. I added the React integration (which I already had for my background and music components) and used the `client:load` directive to ensure the comment component hydrates immediately:
+Getting this working with my Astro blog was straightforward. I had the React integration (which I already had for my background and music components) and used the `client:load` directive to ensure the comment component hydrates immediately:
 
 ```astro
 ---
