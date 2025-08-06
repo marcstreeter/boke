@@ -136,15 +136,7 @@ I'm pretty happy with how it turned out. The conversations feel more natural tha
 
 ## What's Next
 
-I'm considering a few improvements:
-
-**Better onboarding**: Add clearer instructions for people unfamiliar with Bluesky.
-
-**Comment counts**: Show reply counts in blog post listings.
-
-**Offline support**: Cache comments for offline reading.
-
-But honestly, the core system works so well that I'm not in a rush to change it. Sometimes the best solution is the one just works, almost invisibly.
+I'm considering a few improvements, but honestly, the core system works so well that I'm not in a rush to change it. Sometimes the best solution is the one just works, almost invisibly.
 
 ## Why This Approach Works
 
