@@ -110,7 +110,7 @@ const readingMinutes = readingTime % 60;
       }
 
       <!-- Table of Contents Sidebar -->
-      <TableOfContents client:load hasComments={post.data.bsky} />
+      <TableOfContents client:load hasComments={!!post.data.bsky} />
     </main>
   </div>
 
